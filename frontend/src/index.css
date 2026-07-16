@@ -1,0 +1,713 @@
+/* ============================================
+   Team Task Manager — design tokens
+   Visual identity: a ledger / index-card drawer.
+   Tasks are cards in a filing system; status is
+   a stamped tag; overdue is a flagged corner.
+   ============================================ */
+
+:root {
+  --bg: #EEF0EC;
+  --surface: #FFFFFF;
+  --ink: #1C2521;
+  --ink-soft: #5B655F;
+  --ink-faint: #8B948D;
+
+  --accent: #2F5D50;
+  --accent-dark: #234840;
+  --accent-soft: #DCE6DA;
+
+  --flag: #B4432F;
+  --flag-soft: #F3DED9;
+
+  --status-todo: #8A8F87;
+  --status-todo-soft: #E4E6E2;
+  --status-progress: #B8842E;
+  --status-progress-soft: #F2E3C8;
+  --status-done: #2F5D50;
+  --status-done-soft: #DCE6DA;
+
+  --border: #D8DED4;
+  --border-strong: #B7C0B3;
+
+  --radius: 4px;
+  --shadow-card: 0 1px 2px rgba(28, 37, 33, 0.06), 0 1px 1px rgba(28, 37, 33, 0.04);
+  --shadow-lift: 0 4px 14px rgba(28, 37, 33, 0.10);
+
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; }
+
+p { margin: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+button {
+  font-family: var(--font-body);
+}
+
+/* Accessible focus ring everywhere */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+
+.container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.page {
+  flex: 1;
+  padding: 40px 0 80px;
+}
+
+.page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.page-header p {
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+/* ============================================
+   Top navigation
+   ============================================ */
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wordmark-mark {
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+}
+.wordmark-mark::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  height: 2px;
+  background: var(--surface);
+  box-shadow: 0 4px 0 var(--surface), 0 8px 0 var(--surface);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.user-chip {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.user-chip strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent-dark); }
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--accent-soft); border-color: var(--accent); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 6px 10px;
+}
+.btn-ghost:hover:not(:disabled) { color: var(--ink); background: var(--bg); }
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.input, .textarea, .select {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  padding: 9px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  border-color: var(--accent);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 70px;
+  font-family: var(--font-body);
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+.form-row .field { flex: 1; }
+
+.error-text {
+  font-size: 0.85rem;
+  color: var(--flag);
+  background: var(--flag-soft);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+.auth-shell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-card);
+}
+
+.auth-card .wordmark {
+  margin-bottom: 6px;
+}
+
+.auth-card h1 {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.auth-subtitle {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  margin-bottom: 24px;
+}
+
+.auth-switch {
+  margin-top: 18px;
+  font-size: 0.87rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ============================================
+   Index-card motif — shared by project + task cards
+   ============================================ */
+
+.index-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.index-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* ============================================
+   Dashboard / project grid
+   ============================================ */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-card:hover {
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-2px);
+}
+
+.project-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.project-card-desc {
+  color: var(--ink-soft);
+  font-size: 0.87rem;
+  min-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.project-card-meta {
+  display: flex;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.role-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.role-badge.admin {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+.role-badge.member {
+  background: var(--status-todo-soft);
+  color: var(--ink-soft);
+}
+
+.new-project-card {
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-weight: 500;
+  background: transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.new-project-card:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-soft);
+}
+.empty-state h3 { margin-bottom: 6px; color: var(--ink); }
+
+/* ============================================
+   Project view — header, members rail
+   ============================================ */
+
+.project-meta-bar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.members-rail {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.member-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px 5px 5px;
+  font-size: 0.82rem;
+}
+
+.member-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   Task board — three-drawer layout
+   ============================================ */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .board { grid-template-columns: 1fr; }
+}
+
+.board-column {
+  background: rgba(28, 37, 33, 0.03);
+  border-radius: var(--radius);
+  padding: 14px;
+  min-height: 120px;
+}
+
+.column-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.column-tab-label {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.column-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.column-dot.todo { background: var(--status-todo); }
+.column-dot.progress { background: var(--status-progress); }
+.column-dot.done { background: var(--status-done); }
+
+.column-count {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--ink-faint);
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-card {
+  padding: 14px 14px 12px;
+  overflow: hidden;
+}
+
+.task-card.status-todo::before { background: var(--status-todo); }
+.task-card.status-progress::before { background: var(--status-progress); }
+.task-card.status-done::before { background: var(--status-done); }
+
+.task-card.overdue {
+  border-color: var(--flag);
+}
+
+.task-card-overdue-flag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 22px 22px 0;
+  border-color: transparent var(--flag) transparent transparent;
+}
+
+.task-title {
+  font-weight: 500;
+  font-size: 0.94rem;
+  margin-bottom: 4px;
+  padding-right: 14px;
+}
+
+.task-desc {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.task-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.task-assignee {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-due {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.task-due.is-overdue { color: var(--flag); font-weight: 500; }
+
+.status-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  transform: rotate(-2deg);
+  display: inline-block;
+  border: 1.5px solid currentColor;
+}
+.status-stamp.todo { color: var(--status-todo); }
+.status-stamp.progress { color: var(--status-progress); }
+.status-stamp.done { color: var(--status-done); }
+
+.status-select {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 4px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ============================================
+   Modal / inline panel (add member, new task)
+   ============================================ */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.actions-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.spinner-text {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
